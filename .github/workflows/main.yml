@@ -30,7 +30,9 @@ jobs:
       - name: Fix BluetoothBridge.kt bug
         run: |
           FILE="app/src/main/java/com/touchflow/app/BluetoothBridge.kt"
-          sed -i '/get() = (activity.getSystemService(MainActivity.BLUETOOTH_SERVICE) as? BluetoothManager)?.adapter/c\        get() = activity.getSystemService(BluetoothManager::class.java)' "$FILE"
+          sed -n '30,36p' "$FILE"
+          sed -i '34s/.*/        get() = activity.getSystemService(BluetoothManager::class.java)?.adapter/' "$FILE"
+          echo "---after fix---"
           sed -n '30,36p' "$FILE"
 
       - name: Set up JDK 17
